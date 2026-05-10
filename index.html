@@ -1,238 +1,339 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="light dark" />
-  <title>Be My Valentine 💘</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💌</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 </head>
-
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Scene 1: 8-bit Envelope -->
+    <section class="scene is-active" id="scene-1">
+        <div class="scene-content">
+            <div class="envelope-container" id="envelope-container">
 
-  <header class="site-header" role="banner">
-    <nav class="nav" aria-label="Page">
-      <a class="brand" href="#top" data-scroll>💗 Valentine</a>
+                <div class="envelope" id="envelope">
 
-      <div class="nav-links">
-        <a href="#letter" data-scroll>Letter</a>
-        <a href="#puzzle" data-scroll>Puzzle</a>
-        <a href="#question" data-scroll>Question</a>
-      </div>
+                    <!--
+                        FLAP: overlays the top half of the envelope body.
+                        Resting state  → triangle points DOWN (▽) — sealed
+                        After click    → rotateX(180deg) around its TOP edge
+                                         so it flips "open" upward, revealing △
+                    -->
+                    <div class="envelope-flap" id="flap"></div>
 
-      <button id="musicToggle" class="btn btn-ghost" type="button" aria-pressed="false">
-        <span class="icon" aria-hidden="true">♫</span>
-        <span class="music-label">Music: Off</span>
-      </button>
-    </nav>
-  </header>
+                    <!-- BODY: clean rectangle -->
+                    <div class="envelope-body">
+                        <!-- Decorative V-crease lines -->
+                        <div class="fold-left"></div>
+                        <div class="fold-right"></div>
 
-  <div id="top" class="hearts-bg" aria-hidden="true"></div>
+                        <!-- Pixel-art heart seal sitting on the crease -->
+                        <div class="heart-seal" id="heart-seal">
+                            <div class="heart-pixel"></div>
+                        </div>
+                    </div>
 
-  <!-- Optional audio (off by default, only starts after user interaction) -->
-  <audio id="bgm" preload="none" loop>
-    <source src="assets/music.mp3" type="audio/mpeg" />
-  </audio>
+                </div>
 
-  <main id="main" class="main" role="main">
-    <!-- HERO -->
-    <section class="hero" aria-labelledby="heroTitle">
-      <div class="hero-inner">
-        <p class="eyebrow">A little page, made with a lot of love</p>
-        <h1 id="heroTitle" class="title">
-          Will you open this Valentine’s surprise?
-        </h1>
-        <p class="subtitle">
-          Tap the envelope, solve the puzzle, then answer one tiny question 💞
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn" href="#letter" data-scroll>Start</a>
-          <button class="btn btn-ghost" type="button" id="revealHint">
-            Show hints
-          </button>
-        </div>
-
-        <div class="hint" id="hintBox" hidden>
-          <ul>
-            <li>Envelope: click or press Enter/Space.</li>
-            <li>Puzzle: click tiles next to the empty spot (or use keyboard).</li>
-            <li>Captions: tap the “💬” buttons to reveal.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- LOVE LETTER -->
-    <section id="letter" class="section" aria-labelledby="letterTitle">
-      <div class="section-head">
-        <h2 id="letterTitle">A Love Letter</h2>
-        <p class="section-subtitle">Click the envelope to open it.</p>
-      </div>
-
-      <div class="card">
-        <div class="letter-wrap">
-          <button
-            id="envelopeBtn"
-            class="envelope"
-            type="button"
-            aria-expanded="false"
-            aria-controls="letterPaper"
-          >
-            <span class="sr-only">Open the envelope</span>
-            <span class="env-body" aria-hidden="true"></span>
-            <span class="env-flap" aria-hidden="true"></span>
-            <span class="env-seal" aria-hidden="true">💗</span>
-          </button>
-
-          <article
-            id="letterPaper"
-            class="paper"
-            tabindex="-1"
-            aria-label="Love letter"
-          >
-            <h3 class="paper-title">My Dearest,</h3>
-
-            <p>
-              I don’t need a special day to love you—<em>but I’ll happily take one</em>.
-              You make ordinary moments feel like soft music and warm light.
-            </p>
-
-            <p>
-              Thank you for the laughs, the patience, the little glances that say,
-              “we’re in this together.” I choose you—today, and all the tomorrows.
-            </p>
-
-            <p class="paper-signoff">
-              Forever yours, <br />
-              <span class="sig">💞</span>
-            </p>
-
-            <div class="caption-row">
-              <button class="caption-toggle" type="button" aria-expanded="false" aria-controls="cap1">
-                💬 Reveal a tiny secret
-              </button>
-              <p id="cap1" class="caption" hidden>
-                You’re my favorite notification.
-              </p>
+                <p class="click-hint" id="click-hint">click to open 💌</p>
             </div>
-          </article>
         </div>
-
-        <div class="note">
-          <p>
-            <strong>Tip:</strong> Once opened, the envelope will fade into the background so you can keep going.
-          </p>
-        </div>
-      </div>
     </section>
 
-    <!-- PUZZLE -->
-    <section id="puzzle" class="section" aria-labelledby="puzzleTitle">
-      <div class="section-head">
-        <h2 id="puzzleTitle">A Little Puzzle</h2>
-        <p class="section-subtitle">
-          Slide the tiles to reveal the photo. Solve it to unlock the final question.
-        </p>
-      </div>
+    <!-- Scene 2: Love Letter -->
+    <section class="scene" id="scene-2">
 
-      <div class="card">
-        <div class="puzzle-top">
-          <div class="puzzle-meta" role="status" aria-live="polite">
-            <span id="moves">Moves: 0</span>
-            <span class="dot" aria-hidden="true">•</span>
-            <span id="puzzleStatus">Not solved</span>
-          </div>
+        <!-- Click-outside overlay — sits behind the letter, advances scene -->
+        <div class="letter-overlay" id="letter-overlay"></div>
 
-          <div class="puzzle-actions">
-            <button id="shuffleBtn" class="btn" type="button">Shuffle</button>
-            <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
-          </div>
+        <div class="letter-wrapper" id="letter-wrapper">
+
+            <!-- Paper sheet -->
+            <article class="letter-paper" id="letter-paper">
+
+                <!-- Decorative top border line -->
+                <div class="letter-rule"></div>
+
+                <!-- "Dear Emily" — filled by JS typewriter -->
+                <h1 class="letter-salutation" id="letter-salutation"></h1>
+
+                <!-- Body — edit your text freely between the <p> tags -->
+                <div class="letter-body" id="letter-body">
+                    <p>I'm so happy I get to celebrate having you in my life on this special day. This year, I have been reminded time and time again how lucky I am to be your boyfriend. Let me remind you how amazing you are and why I love you:</p>
+
+                    <p>I love the way you know all the lyrics to every song and turn showers/car rides into a karaoke.</p>
+                    
+                    <p>I love the way you're always right about everything.</p>
+
+                    <p>I love how we have such similar tastes in interests, humor, music, to the point that you put me on life.</p>
+
+                    <p>I love how you effortlessly make me laugh and brighten up my day with tea and story times.</p>
+
+                    <p>I love your cuddles and kisses and how you always make me feel at home.</p>
+
+                    <p>Thank you for supporting me through all these crazy changes this past year. Even though I'm not by your side right now, my love for you is stronger than ever and I'm counting down the days til I see you again.</p>
+
+                    <p>Thank you for listening to me when I have rough days and for being understanding and forgiving when I mess up. You are the reason I have the strength to get up every day and what I work towards.</p>
+                    <p>
+                        Thank you for being a bright light in my life. You have a caring and considerate soul that puts others above yourself, and I love you for it. I'm especially so proud of how far you've come with your accomplishments recently, since I know things haven't been easy these last few months. You are worth more than any amount of money or accolades. I will always be by your side and cheerleading you through the highs and lows.
+                    </p>
+
+                    <p>There are a thousand little reasons I fall for you over and over again, and today I just wanted to put some of them into words.</p>
+
+                    <p>I'm looking forward to making more memories with you and spending our lives together. I love you and thank you for being mine.</p>
+                </div>
+
+                <!-- Closing -->
+                <div class="letter-closing" id="letter-closing">
+                    <p class="closing-line">Forever yours,</p>
+                    <p class="closing-signature">Your Valentine 💌</p>
+                </div>
+
+                <!-- Decorative bottom border line -->
+                <div class="letter-rule letter-rule--bottom"></div>
+
+            </article>
+
+            <!-- "Click outside to continue" hint -->
+            <p class="outside-hint" id="outside-hint">click outside to continue →</p>
+
         </div>
+    </section>
 
-        <div class="puzzle-area">
-          <div
-            id="puzzleGrid"
-            class="puzzle-grid"
-            role="group"
-            aria-label="3 by 3 sliding tile puzzle"
-          ></div>
+    <!-- Persistent flower field — lives outside scenes so it stays across S3→S4 -->
+    <div class="flower-field" id="flower-field"></div>
 
-          <div class="puzzle-side">
-            <div class="preview" aria-label="Image preview">
-              <div class="preview-img" aria-hidden="true"></div>
-              <p class="preview-label">Preview</p>
+    <!-- Scene 3: Will You Be My Valentine? -->
+    <section class="scene" id="scene-3">
+
+        <!-- The popup card — hidden until flowers finish -->
+        <div class="valentine-card" id="valentine-card">
+
+            <p class="vc-question">Will you be my</p>
+
+            <!--
+                PHOTO SLOT — replace src with your image path, e.g.:
+                src="assets/us.jpg"
+                The image is cropped to a rounded rectangle via CSS.
+            -->
+            <div class="vc-photo-wrap">
+                <img
+                    class="vc-photo"
+                    id="vc-photo"
+                    src="assets/valentines.png"
+                    alt="Our photo"
+                />
+                <!-- Fallback heart shown if image fails to load -->
+                <div class="vc-photo-fallback" id="vc-photo-fallback">💖</div>
             </div>
 
-            <div class="caption-row">
-              <button class="caption-toggle" type="button" aria-expanded="false" aria-controls="cap2">
-                💬 Reveal a caption
-              </button>
-              <p id="cap2" class="caption" hidden>
-                Every piece finds its place—just like us.
-              </p>
+            <p class="vc-valentine">Valentine?</p>
+
+            <div class="vc-buttons">
+                <button class="vc-btn vc-btn--yes"  id="btn-yes">Yes! 💖</button>
+                <button class="vc-btn vc-btn--no"   id="btn-no">No 🙈</button>
             </div>
-          </div>
+
         </div>
-      </div>
+
     </section>
 
-    <!-- QUESTION -->
-    <section id="question" class="section" aria-labelledby="questionTitle">
-      <div class="section-head">
-        <h2 id="questionTitle">One Last Thing…</h2>
-        <p class="section-subtitle">This appears after the puzzle is solved.</p>
-      </div>
+    <!-- Scene 4: Surprise Gifts -->
+    <section class="scene" id="scene-4">
 
-      <div class="card card-center">
-        <div id="valentineCard" class="valentine-card" hidden>
-          <div class="sparkle" aria-hidden="true"></div>
+        <div class="gifts-wrapper" id="gifts-wrapper">
 
-          <h3 class="val-title">
-            <span class="heart" aria-hidden="true">💘</span>
-            <span id="typingText" class="typing" aria-live="polite"></span>
-          </h3>
+            <!-- Scrollable card -->
+            <article class="gifts-card" id="gifts-card">
 
-          <p class="val-sub">
-            No pressure. Just… my heart will do a tiny happy dance if you say yes.
-          </p>
+                <!-- Floating decorative hearts -->
+                <div class="gifts-hearts" aria-hidden="true">
+                    <span class="gh gh-1">♥</span>
+                    <span class="gh gh-2">♥</span>
+                    <span class="gh gh-3">♥</span>
+                    <span class="gh gh-4">♥</span>
+                    <span class="gh gh-5">♥</span>
+                    <span class="gh gh-6">♥</span>
+                </div>
 
-          <div class="val-actions">
-            <button id="yesBtn" class="btn" type="button">Yes</button>
-            <button id="noBtn" class="btn btn-ghost" type="button">No</button>
-          </div>
+                <div class="gifts-rule"></div>
 
-          <p id="response" class="response" role="status" aria-live="polite"></p>
+                <!-- Title — typewritten by JS -->
+                <h1 class="gifts-title" id="gifts-title"></h1>
 
-          <div class="caption-row">
-            <button class="caption-toggle" type="button" aria-expanded="false" aria-controls="cap3">
-              💬 One more caption
-            </button>
-            <p id="cap3" class="caption" hidden>
-              If love is a language, you’re my favorite sentence.
-            </p>
-          </div>
+                <p class="gifts-subtitle" id="gifts-subtitle">
+                    Three little surprises, just for you 🎀
+                </p>
+
+                <!-- Three gift box portals -->
+                <div class="gifts-grid" id="gifts-grid">
+
+                    <!-- Gift 1 -->
+                    <div class="gift-portal" id="gift-1" data-scene="5">
+                        <div class="gift-box gift-box--pink">
+                            <div class="gift-lid">
+                                <div class="gift-lid-ribbon"></div>
+                            </div>
+                            <div class="gift-body">
+                                <div class="gift-body-ribbon"></div>
+                            </div>
+                            <div class="gift-bow">
+                                <div class="bow-left"></div>
+                                <div class="bow-right"></div>
+                                <div class="bow-knot"></div>
+                            </div>
+                        </div>
+                                    </div>
+
+                    <!-- Gift 2 -->
+                    <div class="gift-portal" id="gift-2" data-scene="6">
+                        <div class="gift-box gift-box--lavender">
+                            <div class="gift-lid">
+                                <div class="gift-lid-ribbon"></div>
+                            </div>
+                            <div class="gift-body">
+                                <div class="gift-body-ribbon"></div>
+                            </div>
+                            <div class="gift-bow">
+                                <div class="bow-left"></div>
+                                <div class="bow-right"></div>
+                                <div class="bow-knot"></div>
+                            </div>
+                        </div>
+                                    </div>
+
+                    <!-- Gift 3 -->
+                    <div class="gift-portal" id="gift-3" data-scene="7">
+                        <div class="gift-box gift-box--mint">
+                            <div class="gift-lid">
+                                <div class="gift-lid-ribbon"></div>
+                            </div>
+                            <div class="gift-body">
+                                <div class="gift-body-ribbon"></div>
+                            </div>
+                            <div class="gift-bow">
+                                <div class="bow-left"></div>
+                                <div class="bow-right"></div>
+                                <div class="bow-knot"></div>
+                            </div>
+                        </div>
+                                    </div>
+
+                </div>
+
+                <div class="gifts-rule gifts-rule--bottom"></div>
+
+            </article>
         </div>
 
-        <div id="lockedMessage" class="locked">
-          <p class="locked-title">🔒 Locked</p>
-          <p class="locked-text">
-            Solve the puzzle to reveal the Valentine card.
-          </p>
-          <a class="btn btn-ghost" href="#puzzle" data-scroll>Go to Puzzle</a>
-        </div>
-      </div>
     </section>
 
-    <footer class="footer">
-      <p>
-        Made with <span aria-hidden="true">💗</span><span class="sr-only">love</span> —
-        press <kbd>Tab</kbd> to explore, <kbd>Enter</kbd>/<kbd>Space</kbd> to activate buttons.
-      </p>
-    </footer>
-  </main>
+    <!-- Scene 5: Sliding Puzzle -->
+    <section class="scene" id="scene-5">
 
-  <script src="app.js"></script>
+        <div class="puzzle-wrapper" id="puzzle-wrapper">
+
+            <h2 class="puzzle-title" id="puzzle-title">Solve to see the full picture!</h2>
+
+            <!-- Always-visible back button -->
+            <button class="puzzle-persist-back-btn" id="puzzle-persist-back">← Back to Gifts</button>
+
+            <!-- The 3×3 grid; tiles injected by JS -->
+            <div class="puzzle-board" id="puzzle-board"></div>
+
+            <!-- Solve overlay — fades in on completion -->
+            <div class="puzzle-solved" id="puzzle-solved">
+                <p class="puzzle-solved-text">We complete each other</p>
+                <div class="puzzle-hearts">
+                    <span>💖</span><span>💖</span><span>💖</span>
+                </div>
+                <button class="puzzle-back-btn" id="puzzle-back-btn">← Back to Gifts</button>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- Scene 6: Word Search -->
+    <section class="scene" id="scene-6">
+        <div class="wordsearch-wrapper" id="wordsearch-wrapper">
+
+            <h2 class="ws-title">Highlights of Our Last Year</h2>
+
+            <!-- Grid injected by JS -->
+            <div class="ws-grid" id="ws-grid"></div>
+
+            <!-- Word bank — first letter only until found -->
+            <div class="ws-bank" id="ws-bank"></div>
+
+            <button class="puzzle-persist-back-btn ws-back-btn" id="ws-back-btn">← Back to Gifts</button>
+
+        </div>
+    </section>
+    <!-- Scene 7: YouTube Video -->
+    <section class="scene" id="scene-7">
+        <div class="video-wrapper" id="video-wrapper">
+
+            <h2 class="video-title">A Blast into the Past</h2>
+
+            <!--
+                Replace VIDEO_ID below with your YouTube video ID.
+                e.g. for https://youtube.com/watch?v=dQw4w9WgXcQ → use dQw4w9WgXcQ
+            -->
+            <div class="video-frame-wrap">
+                <iframe
+                    id="yt-player"
+                    class="video-iframe"
+                    src="https://www.youtube.com/embed/B-6jWlL2kcA"
+                    title="A Blast into the Past"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="video-actions">
+                <button class="puzzle-persist-back-btn video-back-btn" id="video-back-btn">← Back to Gifts</button>
+                <button class="video-continue-btn" id="video-continue-btn">Continue →</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Scene 8: The End -->
+    <section class="scene" id="scene-8">
+        <div class="ending-wrapper" id="ending-wrapper">
+            <p class="ending-line ending-line--1" id="ending-l1">The End!</p>
+            <p class="ending-line ending-line--2" id="ending-l2">Can't wait to spend the rest of</p>
+            <p class="ending-line ending-line--3" id="ending-l3">Valentine's Day with my Babes.</p>
+            <div class="ending-hearts" id="ending-hearts">
+                <span>💖</span><span>🌸</span><span>💕</span><span>✨</span><span>💗</span>
+            </div>
+        </div>
+    </section>
+
+    <!--
+        BACKGROUND MUSIC
+        Replace src with your audio file path, e.g.: assets/music.mp3
+        Starts muted; JS unmutes after first envelope click.
+        The small toggle button (bottom-right) lets her pause/resume.
+    -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="assets/music.mp3" type="audio/mpeg">
+        <source src="assets/music.ogg" type="audio/ogg">
+    </audio>
+
+    <!-- Music toggle pill — always visible after music starts -->
+    <button class="music-toggle" id="music-toggle" aria-label="Toggle music" hidden>
+        <span class="music-icon" id="music-icon">♪</span>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- SplitType for typewriter character splitting -->
+    <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
